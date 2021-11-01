@@ -1,0 +1,54 @@
+logging:
+  level:
+    root: INFO
+
+management:
+  metrics:
+    export:
+      prometheus:
+        enabled: false
+  endpoint:
+    prometheus:
+      enabled: false
+
+spring:
+  cloud:
+    kubernetes:
+      discovery:
+        enabled: false
+  zipkin:
+    enabled: false
+  security:
+    oauth2:
+      client:
+        provider:
+          dbs:
+            token-uri: http://localhost:8080/bb-authentication-token-converter-service/oauth/token
+        registration:
+          dbs:
+            authorization-grant-type: client_credentials
+            client-id: bb-client
+            client-secret: bb-secret
+            client-authentication-method: post
+
+
+# Backbase Stream Configuration
+backbase:
+  stream:
+    bootstrap:
+      legal-entity-location: classpath:legal-entity-hierarchy.json
+      product-catalog-location: classpath:product-catalog.json
+    legalentity:
+      sink:
+        use-identity-integration: false
+        userProfileEnabled: false
+    dbs:
+      user-manager-base-url: http://localhost:8086/user-manager
+      access-control-base-url: http://localhost:8086/access-control
+      arrangement-manager-base-url: http://localhost:8082/arrangement-manager
+      transaction-manager-base-url: http://transaction-manager:8080
+      user-profile-manager-base-url: http://localhost:8086/user-profile-manager
+
+environment:
+  installation: ref
+  runtime: dev

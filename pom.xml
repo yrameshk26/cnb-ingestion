@@ -1,0 +1,107 @@
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <modules>
+        <module>legal-entity-bootstrap-task</module>
+        <module>legal-entity-client-task</module>
+    </modules>
+
+    <parent>
+        <groupId>com.backbase.buildingblocks</groupId>
+        <version>12.2.0</version>
+        <artifactId>service-sdk-starter-core</artifactId>
+        <relativePath/>
+    </parent>
+
+    <groupId>com.cnb.backbase</groupId>
+    <artifactId>cnb-ingestion</artifactId>
+    <version>0.0.1</version>
+    <packaging>pom</packaging>
+    <name>Backbase :: Digital Banking Services :: cnb-ingestion</name>
+
+    <properties>
+        <java.version>11</java.version>
+        <boat-maven-plugin.version>0.14.1</boat-maven-plugin.version>
+        <open-api-specs-dir>${project.build.directory}/specs</open-api-specs-dir>
+        <!-- required for generated api -->
+        <swagger-annotations.version>1.6.2</swagger-annotations.version>
+        <jackson-databind-nullable.version>0.2.1</jackson-databind-nullable.version>
+        <lombok.version>1.18.0</lombok.version>
+
+        <!-- Docker config -->
+        <!--suppress UnresolvedMavenProperty -->
+        <docker.repo.url>${DEVOPS_CICD_ECR_BASE_URL}</docker.repo.url>
+        <docker.image.name>${docker.repo.url}/${project.artifactId}</docker.image.name>
+        <jib.to.image>${docker.image.name}:${project.version}</jib.to.image>
+        <docker.distroless.war.latest.skip>true</docker.distroless.war.latest.skip>
+        <SIG_SECRET_KEY>JWTSecretKeyDontUseInProduction!</SIG_SECRET_KEY>
+    </properties>
+
+    <dependencies>
+    </dependencies>
+
+    <build>
+        <plugins>
+
+        <plugin>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-maven-plugin</artifactId>
+            <executions>
+                <execution>
+                    <id>repackage</id>
+                    <goals>
+                        <goal>build-info</goal>
+                        <goal>repackage</goal>
+                    </goals>
+                    <configuration>
+                        <classifier>boot</classifier>
+                    </configuration>
+                </execution>
+            </executions>
+            <dependencies>
+                <!-- Add artifact containing custom factory as plugin
+                    dependency -->
+                <dependency>
+                    <groupId>com.backbase.buildingblocks</groupId>
+                    <artifactId>backbase-loader-tool</artifactId>
+                    <version>12.2.0</version>
+                </dependency>
+            </dependencies>
+            <configuration>
+                <!-- Use custom layout factory -->
+                <layoutFactory
+                    implementation="com.backbase.boot.layout.BackbaseLayoutFactory" />
+                <environmentVariables>
+                    <SIG_SECRET_KEY>JWTSecretKeyDontUseInProduction!</SIG_SECRET_KEY>
+                </environmentVariables>
+            </configuration>
+        </plugin>
+            <plugin>
+                <groupId>com.amashchenko.maven.plugin</groupId>
+                <artifactId>gitflow-maven-plugin</artifactId>
+                <version>1.15.1</version>
+                <configuration>
+                    <installProject>false</installProject>
+                    <verbose>false</verbose>
+                    <gitFlowConfig>
+                        <productionBranch>${productionBranch}</productionBranch>
+                        <developmentBranch>develop</developmentBranch>
+                        <featureBranchPrefix>feature/</featureBranchPrefix>
+                        <releaseBranchPrefix>release/</releaseBranchPrefix>
+                        <hotfixBranchPrefix>hotfix/</hotfixBranchPrefix>
+                        <versionTagPrefix>v</versionTagPrefix>
+                        <origin>origin</origin>
+                    </gitFlowConfig>
+                    <commitMessages>
+                        <!-- since 1.2.1, see Customizing commit messages -->
+                        <releaseStartMessage>Update versions for release @{version}</releaseStartMessage>
+                        <releaseFinishMessage>Update for next development version @{version}</releaseFinishMessage>
+                        <releaseVersionUpdateMessage>Update for next development version @{version}
+                        </releaseVersionUpdateMessage>
+                    </commitMessages>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+</project>

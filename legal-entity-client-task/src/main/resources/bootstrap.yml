@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: legal-entity-client-task
+  cloud:
+    kubernetes:
+      config:
+        enabled: false
+    config:
+      enabled: false

@@ -1,0 +1,113 @@
+logging:
+  level:
+    root: INFO
+    com.backbase: INFO
+    org.springframework.web: INFO
+    org.springframework.batch: INFO
+
+management:
+  metrics:
+    export:
+      prometheus:
+        enabled: false
+  endpoint:
+    prometheus:
+      enabled: false
+
+spring:
+  zipkin:
+    enabled: false
+  security:
+    oauth2:
+      client:
+        provider:
+          dbs:
+            token-uri: http://localhost:8080/bb-authentication-token-converter-service/oauth/token
+        registration:
+          dbs:
+            authorization-grant-type: client_credentials
+            client-id: bb-client
+            client-secret: bb-secret
+            client-authentication-method: post
+
+
+# Backbase Stream Configuration
+backbase:
+  stream:
+    legalentity:
+      sink:
+        use-identity-integration: false
+    dbs:
+      user-manager-base-url: http://localhost:8086
+      access-control-base-url: http://localhost:8086
+      arrangement-manager-base-url: http://localhost:8082
+
+customer:
+  retail:
+    legalEntity:
+      name: "Sara"
+      realmName: "backbase"
+      externalId: "sara"
+      legalEntityType: "CUSTOMER"
+      parentExternalId: "moustache-bank-usa"
+      administrators:
+        - externalId: "sara"
+          fullName: "Sara Jones"
+          identityLinkStrategy: "CREATE_IN_IDENTITY"
+          emailAddress:
+            address: "sara@email.com"
+          mobileNumber:
+            number: "1234567890"
+      users:
+        - user:
+            externalId: "sara"
+            identityLinkStrategy: "CREATE_IN_IDENTITY"
+          referenceJobRoleNames:
+            - "Retail User - USA"
+      productGroups:
+        - name: "sara-arrangements"
+          description: "Product group containing user arrangements"
+          currentAccounts:
+            - externalId: "021000021"
+              BBAN: "021000021"
+              name: "Sara's Current Account 1"
+              productTypeExternalId: "current-account"
+              currency: "USD"
+              externalTransferAllowed: true
+              availableBalance:
+                currencyCode: "USD"
+                amount: 1055.5
+              bookedBalance:
+                currencyCode: "USD"
+                amount: 1055.5
+          savingAccounts:
+            - externalId: "021000022"
+              BBAN: "021000022"
+              name: "Sara's Savings Account 1"
+              productTypeExternalId: "savings-account"
+              currency: "USD"
+              externalTransferAllowed: false
+              availableBalance:
+                currencyCode: "USD"
+                amount: 3820.2
+              bookedBalance:
+                currencyCode: "USD"
+                amount: 3820.2
+              accountInterestRate: 0.05
+              termUnit: "Quarterly"
+            - externalId: "021000023"
+              BBAN: "021000023"
+              name: "Sara's Savings Account 2"
+              productTypeExternalId: "savings-account"
+              currency: "USD"
+              externalTransferAllowed: false
+              availableBalance:
+                currencyCode: "USD"
+                amount: 155.5
+              bookedBalance:
+                currencyCode: "USD"
+                amount: 155.5
+              accountInterestRate: 0.05
+              termUnit: "Quarterly"
+
+

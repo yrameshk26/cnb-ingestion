@@ -1,0 +1,15 @@
+/target/
+# Default ignored files
+/shelf/
+/workspace.xml
+# Datasource local storage ignored files
+/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
+/.idea/
+/cnb-ingestion.iml
+/legal-entity-client-task/legal-entity-client-task.iml
+/legal-entity-bootstrap-task/legal-entity-bootstrap-task.iml
+/legal-entity-client-task/target/
+/legal-entity-bootstrap-task/target/
