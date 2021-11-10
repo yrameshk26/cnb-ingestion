@@ -49,7 +49,7 @@ customer:
       realmName: "backbase"
       externalId: "sara"
       legalEntityType: "CUSTOMER"
-      parentExternalId: "moustache-bank-usa"
+      parentExternalId: "ref-dev-cnb-bank"
       administrators:
         - externalId: "sara"
           fullName: "Sara Jones"
